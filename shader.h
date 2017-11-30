@@ -50,23 +50,28 @@ struct shader
 			glShaderSource(fragShaderHandle, 1, (const char**)&fragShaderSource, NULL);
 
 			// free shader source memory (no longer needed once loaded into GPU)
-			delete vertShaderSource;
-			delete fragShaderSource;
+			// delete vertShaderSource;
+			// delete fragShaderSource;
+			if (vertShaderSource != NULL) free(vertShaderSource);
+			if (fragShaderSource != NULL) free(fragShaderSource);
 
 			// compile shader programs
 			glCompileShader(vertShaderHandle);
 			glCompileShader(fragShaderHandle);
 
 			// verify
-			glVerifyHandle(vertShaderHandle);
-			glVerifyHandle(fragShaderHandle);
+			if (!glVerifyHandle(vertShaderHandle))
+				throw runtime_error("Failed to compile vertex shader");
+			if (!glVerifyHandle(fragShaderHandle))
+				throw runtime_error("Failed to compile fragment shader");
 
-
+			cout << "done compiling " << vertShaderFileName << endl;
+			cout << "done compiling " << fragShaderFileName << endl;
 
 		//*** Step 2: link and install the shading program ***//
 
 			// create program handle
-			GLuint programHandle = glCreateProgram();
+			GLuint programHandle(glCreateProgram());
 
 			// attach shaders
 			glAttachShader(programHandle, vertShaderHandle);
@@ -76,7 +81,8 @@ struct shader
 			glLinkProgram(programHandle);
 
 			// verify
-			glVerifyHandle(programHandle);
+			if (!glVerifyHandle(programHandle))
+				throw runtime_error("Failed to link program");
 
 			// detach shaders (no longer needed once linked into program)
 			glDetachShader(programHandle, vertShaderHandle);
@@ -84,6 +90,8 @@ struct shader
 
 			// install program into rendering state
 			glUseProgram(programHandle);
+
+			cout << "done linking" << endl;
 
 	} // NO MORE CHANGES PAST THIS POINT!
 
@@ -110,7 +118,7 @@ struct shader
 		char* infoLog(new char[logLen]);
 		glGetInfoLogARB(handle, logLen, &checkLen, &infoLog[0]);
 		if (checkLen > 0) {
-			cerr << "Error:" << endl << infoLog << endl;
+			cout << "Error:" << endl << infoLog << endl;
 			return 0; // failed
 		}
 		return 1; // okay
