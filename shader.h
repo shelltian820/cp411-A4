@@ -71,7 +71,8 @@ struct shader
 		//*** Step 2: link and install the shading program ***//
 
 			// create program handle
-			GLuint programHandle(glCreateProgram());
+			//GLuint programHandle(glCreateProgram());
+			programHandle = glCreateProgram();
 
 			// attach shaders
 			glAttachShader(programHandle, vertShaderHandle);
