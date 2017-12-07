@@ -65,8 +65,8 @@ struct shader
 			if (!glVerifyHandle(fragShaderHandle))
 				throw runtime_error("Failed to compile fragment shader");
 
-			cout << "done compiling " << vertShaderFileName << endl;
-			cout << "done compiling " << fragShaderFileName << endl;
+			//cout << "done compiling " << vertShaderFileName << endl;
+			//cout << "done compiling " << fragShaderFileName << endl;
 
 		//*** Step 2: link and install the shading program ***//
 
@@ -92,7 +92,7 @@ struct shader
 			// install program into rendering state
 			glUseProgram(programHandle);
 
-			cout << "done linking" << endl;
+			//cout << "done linking" << endl;
 
 	} // NO MORE CHANGES PAST THIS POINT!
 

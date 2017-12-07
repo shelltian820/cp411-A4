@@ -5,12 +5,9 @@
 uniform float currentTime;
 
 
-void main() 
+void main()
 {
-	// red * abs(sin(time));
-	//gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 	float colorValue = abs(sin(currentTime));
 	gl_FragColor = vec4(1.0-colorValue, 0.0, 0.0, 1.0);
 
 }
-
